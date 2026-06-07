@@ -5,8 +5,6 @@ import json
 
 
 class PlatformSerializer(serializers.ModelSerializer):
-    plat_logo = serializers.SerializerMethodField()
-
     class Meta:
         model = Platform
         fields = "__all__"
