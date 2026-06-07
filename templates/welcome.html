@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f4f6f8;
+            padding: 20px 0;
+        }
+
+        .main {
+            background: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            /* background: linear-gradient(135deg, #4CAF50, #2e7d32); */
+            background-image: linear-gradient(to right, #A80D65 0%, #871ABB 50%, #A80D65 100%);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 150px;
+        }
+
+        .content {
+            padding: 30px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .content h2 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            /* background: #4CAF50; */
+            background-image: linear-gradient(to right, #A80D65 0%, #871ABB 50%, #A80D65 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+
+        .footer {
+            padding: 15px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            background: #fafafa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main">
+
+            <!-- Header with Logo -->
+            <div class="header">
+                <!-- <img src="C:\Users\Sachin\Music\full stack\project\project\src\assets\Images\logo1.png" alt="Logo"> -->
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <h2>Welcome, {{ user.first_name }} 🎉</h2>
+
+                <p>
+                    Thank you for joining us! We're excited to have you onboard.
+                    Start exploring and enjoy the experience.
+                </p>
+
+                <a href="http://localhost:5173/login" class="btn">Login to Your Account</a>
+
+                <p style="margin-top:25px;">
+                    If you didn’t create this account, you can safely ignore this email.
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                © 2026 Your Company. All rights reserved.
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
