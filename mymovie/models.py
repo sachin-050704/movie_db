@@ -1,10 +1,11 @@
 from django.db import models
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Actor(models.Model):
     act_name = models.CharField(max_length=200)
-    act_image = models.ImageField(upload_to="actors/")
+    act_image = CloudinaryField('image')
     act_birth_date = models.DateField(null=True, blank=True)
     act_bio = models.TextField(blank=True)
 
