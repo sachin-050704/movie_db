@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 class Actor(models.Model):
     act_name = models.CharField(max_length=200)
-    act_image = CloudinaryField('image')
+    act_image = CloudinaryField('image', blank=True, null=True)
     act_birth_date = models.DateField(null=True, blank=True)
     act_bio = models.TextField(blank=True)
 
