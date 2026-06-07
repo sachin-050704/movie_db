@@ -5,14 +5,14 @@ import json
 
 
 class PlatformSerializer(serializers.ModelSerializer):
+    plat_logo = serializers.SerializerMethodField()
+
     class Meta:
         model = Platform
-        fields = "__all__"
+        fields = ["id", "plat_name", "plat_logo"]
 
     def get_plat_logo(self, obj):
-        if obj.plat_logo:
-            return obj.plat_logo.url
-        return None
+        return obj.plat_logo.url if obj.plat_logo else None
 
 
 class ActorSerializer(serializers.ModelSerializer):
