@@ -40,13 +40,33 @@ def process_instance(instance, field_name):
 
     value = str(getattr(instance, field_name)).strip()
 
-    # Skip already cloudinary
+    # ===============================
+    # 1. Already full URL → skip
+    # ===============================
     if value.startswith("http"):
         print(f"Skipping (already cloudinary): {value}")
         return
 
-    value = value.replace("image/upload/", "")
+    # ===============================
+    # 2. FIX: Cloudinary partial path (IMPORTANT FIX)
+    # ===============================
+    if "image/upload/" in value and "http" not in value:
+        print(f"Fixing broken cloudinary path: {value}")
 
+        public_id = value.split("image/upload/")[-1]
+
+        url = f"https://res.cloudinary.com/{cloudinary.config().cloud_name}/image/upload/{public_id}"
+
+        setattr(instance, field_name, url)
+        instance.save()
+
+        print(f"Fixed to: {url}")
+        return
+
+    # ===============================
+    # 3. Local MEDIA file case
+    # ===============================
+    value = value.replace("image/upload/", "")
     local_path = os.path.join(settings.MEDIA_ROOT, value)
 
     if os.path.exists(local_path):
@@ -55,7 +75,7 @@ def process_instance(instance, field_name):
         try:
             url = upload_image(local_path)
         except Exception as e:
-            print(f"Upload failed: {local_path} -> {e}")
+            print(f"Upload failed: {e}")
             return
 
         setattr(instance, field_name, url)
