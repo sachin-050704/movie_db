@@ -68,3 +68,19 @@ class AdminUserViewSet(ModelViewSet):
         if self.request.method in ["POST", "PATCH", "PUT"]:
             return UserWriteSerializer
         return UserReadSerializer
+    
+
+
+from django.http import JsonResponse
+from django.conf import settings
+import os
+
+def check_media(request):
+    media_path = os.path.join(settings.MEDIA_ROOT, "actors")
+    files = os.listdir(media_path) if os.path.exists(media_path) else []
+    return JsonResponse({
+        "media_root": str(settings.MEDIA_ROOT),
+        "exists": os.path.exists(media_path),
+        "count": len(files),
+        "sample": files[:10]
+    })

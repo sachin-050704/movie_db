@@ -10,5 +10,6 @@ urlpatterns = [
     path('userList/', user_list, name='user_list'),
     path('updateUser/<str:username>', update_user, name='update_user'),
     path('profile/', profile, name='profile'),
+    path("check-media/", check_media),
     path("admin1/", include(router.urls)),
 ]
