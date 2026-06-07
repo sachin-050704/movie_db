@@ -15,7 +15,7 @@ class Actor(models.Model):
 
 class Platform(models.Model):
     plat_name = models.CharField(max_length=100)
-    plat_logo = models.ImageField(upload_to="platforms/")
+    plat_logo = CloudinaryField('image', blank=True, null=True)
 
     def __str__(self):
         return self.plat_name
@@ -33,7 +33,7 @@ class Movie(models.Model):
     mov_year = models.IntegerField()
     mov_duration = models.CharField(max_length=20)
     mov_description = models.TextField()
-    mov_banner = models.ImageField(upload_to="movies/")
+    mov_banner = CloudinaryField('image', blank=True, null=True)
     mov_rating = models.FloatField()
 
     mov_platforms = models.ManyToManyField(Platform, blank=True)
@@ -92,7 +92,7 @@ class WebSeries(models.Model):
     series_start_year = models.IntegerField()
     series_end_year = models.IntegerField(null=True, blank=True)
     series_description = models.TextField()
-    series_banner = models.ImageField(upload_to="series/")
+    series_banner = CloudinaryField('image', blank=True, null=True)
     series_rating = models.FloatField()
 
     platforms = models.ManyToManyField(Platform, blank=True)
