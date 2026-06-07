@@ -5,15 +5,29 @@ import json
 
 
 class PlatformSerializer(serializers.ModelSerializer):
+    plat_logo = serializers.SerializerMethodField()
+
     class Meta:
         model = Platform
         fields = "__all__"
 
+    def get_plat_logo(self, obj):
+        if obj.plat_logo:
+            return obj.plat_logo.url
+        return None
+
 
 class ActorSerializer(serializers.ModelSerializer):
+    act_image = serializers.SerializerMethodField()
+
     class Meta:
         model = Actor
         fields = ["id", "act_name", "act_image"]
+
+    def get_act_image(self, obj):
+        if obj.act_image:
+            return obj.act_image.url
+        return None
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -63,10 +77,14 @@ class MovieSerializer(serializers.ModelSerializer):
     crews = MovieCrewSerializer(many=True)
     reviews = ReviewSerializers(many=True)
     rentals = serializers.SerializerMethodField()
+    mov_banner = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
         fields = "__all__"
+
+    def get_mov_banner(self, obj):
+        return obj.mov_banner.url if obj.mov_banner else None
 
     def get_rentals(self, obj):
         request = self.context.get("request")
@@ -118,10 +136,14 @@ class WebSeriesSerializer(serializers.ModelSerializer):
     crews = SeriesCrewSerializer(many=True)
     reviews = SeriesReviewSerializer(many=True)
     rentals = serializers.SerializerMethodField()
+    series_banner = serializers.SerializerMethodField()
 
     class Meta:
         model = WebSeries
         fields = "__all__"
+
+    def get_series_banner(self, obj):
+        return obj.series_banner.url if obj.series_banner else None
 
     def get_rentals(self, obj):
         request = self.context.get("request")
