@@ -17,6 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserReadSerializer(serializers.ModelSerializer):
+    profile = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
@@ -30,6 +32,9 @@ class UserReadSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at'
         ]
+
+    def get_profile(self, obj):
+        return obj.profile.url if obj.profile else None
 
 
 
