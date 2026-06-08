@@ -24,8 +24,8 @@ def register_page(request):
 @permission_classes([AllowAny])
 def user_list(request):
     user = User.objects.all()
-    serializer = UserSerializer(user, many=True)
-    return Response(serializer.data,status=status.HTTP_200_OK)
+    serializer = UserReadSerializer(user, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['PUT'])
