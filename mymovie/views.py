@@ -7,7 +7,6 @@ from .serializers import *
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 @api_view(["GET"])
@@ -174,12 +173,6 @@ class AdminPlatformViewSet(ModelViewSet):
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
-
-    def create(self, request, *args, **kwargs):
-        print("DATA:", request.data)
-        print("FILES:", request.FILES)
-        return super().create(request, *args, **kwargs)
 
 
 class AdminLanguageViewSet(ModelViewSet):
