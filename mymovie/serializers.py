@@ -25,6 +25,16 @@ class ActorSerializer(serializers.ModelSerializer):
         model = Actor
         fields = ["id", "act_name", "act_image"]
 
+class ActorReadSerializer(serializers.ModelSerializer):
+    act_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Actor
+        fields = ["id", "act_name", "act_image"]
+
+    def get_act_image(self, obj):
+        return obj.act_image.url if obj.act_image else None
+
 
 class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,6 +94,31 @@ class MovieSerializer(serializers.ModelSerializer):
             return []
         rentals = obj.rentals.filter(user=request.user, status="success")
         return RentalSerializer(rentals, many=True).data
+    
+
+class MovieReadSerializer(serializers.ModelSerializer):
+    mov_banner = serializers.SerializerMethodField()
+
+    platforms = PlatformReadSerializer(source="mov_platforms", many=True)
+    languages = LanguageSerializer(many=True)
+    casts = MovieCastSerializer(many=True)
+    crews = MovieCrewSerializer(many=True)
+    reviews = ReviewSerializers(many=True)
+    rentals = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Movie
+        fields = "__all__"
+
+    def get_mov_banner(self, obj):
+        return obj.mov_banner.url if obj.mov_banner else None
+
+    def get_rentals(self, obj):
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
+            return []
+        rentals = obj.rentals.filter(user=request.user, status="success")
+        return RentalSerializer(rentals, many=True).data
 
 
 
@@ -132,6 +167,31 @@ class WebSeriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebSeries
         fields = "__all__"
+
+    def get_rentals(self, obj):
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
+            return []
+        rentals = obj.rentals.filter(user=request.user, status="success")
+        return RentalSerializer(rentals, many=True).data
+    
+class WebSeriesReadSerializer(serializers.ModelSerializer):
+    series_banner = serializers.SerializerMethodField()
+
+    platforms = PlatformReadSerializer(many=True)
+    languages = LanguageSerializer(many=True)
+    seasons = SeasonSerializer(many=True)
+    casts = SeriesCastSerializer(many=True)
+    crews = SeriesCrewSerializer(many=True)
+    reviews = SeriesReviewSerializer(many=True)
+    rentals = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WebSeries
+        fields = "__all__"
+
+    def get_series_banner(self, obj):
+        return obj.series_banner.url if obj.series_banner else None
 
     def get_rentals(self, obj):
         request = self.context.get("request")

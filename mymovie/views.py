@@ -168,6 +168,11 @@ class AdminActorViewSet(ModelViewSet):
     serializer_class = AdminActorSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_serializer_class(self):
+        if self.request.method in ["POST", "PUT", "PATCH"]:
+            return ActorSerializer
+        return ActorReadSerializer
+
 
 class AdminPlatformViewSet(ModelViewSet):
     queryset = Platform.objects.all()
@@ -193,7 +198,7 @@ class AdminMovieViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.request.method in ["POST", "PATCH", "PUT"]:
             return AdminMovieSerializer
-        return MovieSerializer
+        return MovieReadSerializer
 
 
 class AdminCharacterViewSet(ModelViewSet):
@@ -246,8 +251,8 @@ class AdminWebSeriesViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.method in ["POST", "PUT", "PATCH"]:
-            return WebSeriesFullCreateSerializer   # ✅ changed
-        return WebSeriesSerializer
+            return WebSeriesFullCreateSerializer   
+        return WebSeriesReadSerializer
     
 
 class AdminSeasonViewSet(ModelViewSet):
