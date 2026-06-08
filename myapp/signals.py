@@ -8,7 +8,9 @@ from django.conf import settings
 User = get_user_model()
 
 @receiver(post_save, sender=User)
-def send_welcome_email(sender, instance, created, **kwargs):
+def send_welcome_email(sender, instance, created, raw=False, **kwargs):
+    if raw:
+        return
     if created:
         subject = 'Welcome to Wowtube'
         from_email = settings.DEFAULT_FROM_EMAIL

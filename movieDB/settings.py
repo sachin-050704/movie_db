@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from dotenv import load_dotenv
+load_dotenv()
 from pathlib import Path
 import cloudinary
 import cloudinary.uploader
@@ -92,9 +94,17 @@ WSGI_APPLICATION = 'movieDB.wsgi.application'
 import dj_database_url
 import os
 
+
+
+import os
+import dj_database_url
+
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
+        os.environ.get(
+            "DATABASE_URL",
+            "sqlite:///db.sqlite3"
+        )
     )
 }
 
