@@ -9,6 +9,16 @@ class PlatformSerializer(serializers.ModelSerializer):
         model = Platform
         fields = "__all__"
 
+class PlatformReadSerializer(serializers.ModelSerializer):
+    plat_logo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Platform
+        fields = ["id", "plat_name", "plat_logo"]
+
+    def get_plat_logo(self, obj):
+        return obj.plat_logo.url if obj.plat_logo else None
+
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:

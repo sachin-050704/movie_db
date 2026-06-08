@@ -174,6 +174,11 @@ class AdminPlatformViewSet(ModelViewSet):
     serializer_class = PlatformSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_serializer_class(self):
+        if self.request.method in ["POST", "PUT", "PATCH"]:
+            return PlatformSerializer
+        return PlatformReadSerializer
+
 
 class AdminLanguageViewSet(ModelViewSet):
     queryset = Language.objects.all()
