@@ -15,85 +15,55 @@ from .signals import rental_success
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-# def create_order(request):
-#     amount = int(request.data.get('amount', 0)) * 100  # in paise
-#     content_type = request.data.get('type')  # "movie" or "webseries"
-#     content_id = request.data.get('id')
-
-#     # Validate ID
-#     try:
-#         content_id = int(content_id)
-#     except (ValueError, TypeError):
-#         return Response({"error": "Content ID must be a number"}, status=400)
-
-#     if not content_type or not content_id:
-#         return Response({"error": "Content type and ID are required"}, status=400)
-
-#     movie = None
-#     webseries = None
-
-#     try:
-#         if content_type == "movie":
-#             movie = Movie.objects.get(id=content_id)
-#         elif content_type == "webseries":
-#             webseries = WebSeries.objects.get(id=content_id)
-#         else:
-#             return Response({"error": "Invalid content type"}, status=400)
-#     except (Movie.DoesNotExist, WebSeries.DoesNotExist):
-#         return Response({"error": "Invalid content ID"}, status=400)
-
-#     # Create Razorpay order
-#     order = client.order.create({
-#         "amount": amount,
-#         "currency": "INR",
-#         "payment_capture": 1
-#     })
-
-#     # Save order in DB
-#     rental = Rental.objects.create(
-#         user=request.user,
-#         movie=movie,
-#         webseries=webseries,
-#         amount=amount,
-#         razorpay_order_id=order['id']
-#     )
-
-#     return Response(order)
-
-
-
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_order(request):
+    amount = int(request.data.get('amount', 0)) * 100  # in paise
+    content_type = request.data.get('type')  # "movie" or "webseries"
+    content_id = request.data.get('id')
+
+    # Validate ID
     try:
-        print("REQUEST DATA:", request.data)
-        print("USER:", request.user)
+        content_id = int(content_id)
+    except (ValueError, TypeError):
+        return Response({"error": "Content ID must be a number"}, status=400)
 
-        amount = int(request.data.get('amount', 0)) * 100
-        content_type = request.data.get('type')
-        content_id = request.data.get('id')
+    if not content_type or not content_id:
+        return Response({"error": "Content type and ID are required"}, status=400)
 
-        print("AMOUNT:", amount)
-        print("TYPE:", content_type)
-        print("ID:", content_id)
+    movie = None
+    webseries = None
 
-        order = client.order.create({
-            "amount": amount,
-            "currency": "INR",
-            "payment_capture": 1
-        })
+    try:
+        if content_type == "movie":
+            movie = Movie.objects.get(id=content_id)
+        elif content_type == "webseries":
+            webseries = WebSeries.objects.get(id=content_id)
+        else:
+            return Response({"error": "Invalid content type"}, status=400)
+    except (Movie.DoesNotExist, WebSeries.DoesNotExist):
+        return Response({"error": "Invalid content ID"}, status=400)
 
-        print("ORDER CREATED:", order)
+    # Create Razorpay order
+    order = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": 1
+    })
 
-        return Response(order)
+    # Save order in DB
+    rental = Rental.objects.create(
+        user=request.user,
+        movie=movie,
+        webseries=webseries,
+        amount=amount,
+        razorpay_order_id=order['id']
+    )
 
-    except Exception as e:
-        print("CREATE ORDER ERROR:", str(e))
-        return Response({"error": str(e)}, status=500)
+    return Response(order)
+
+
+
 
 
 @api_view(['POST'])
