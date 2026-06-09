@@ -197,8 +197,8 @@ SIMPLE_JWT = {
 }
 
 
-RAZORPAY_KEY_ID = "rzp_test_SViyNZiKe6dIqC"
-RAZORPAY_KEY_SECRET = "YMqaNa53isAu7m32MpA35WMu"
+RAZORPAY_KEY_ID = "rzp_test_SykwuECN3EvQqh"
+RAZORPAY_KEY_SECRET = "813BVlR0uwPqVDiGO52I60Wp"
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
